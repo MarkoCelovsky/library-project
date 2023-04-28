@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title><%= pageTitle %></title>
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico" />
+    <link rel="stylesheet" href="/css/main.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700"
+    />
+  </head>
+
+  <body>
+    <header>
+      <div>
+        <a href="/"><h1><%= user.username %> reservations</h1> </a>
+      </div>
+      <div style="margin-right: 30px">
+        <a href="/" class="card">Home</a>
+        <a href="/authors" class="card">Authors</a>
+        <a href="/create-book" class="card">Create book</a>
+        <a href="/users" class="card">Users</a>
+      </div>
+    </header>
+    <main>
+      <div class="pay-debt">
+        <form action="/pay-user-debt" method="POST">
+          <p class="user-fee">User fee: <%= user.fee.toFixed(2) %> &euro;</p>
+          <input type="hidden" name="user_id" value="<%= user.id %>" />
+          <button class="pay-button" type="submit">Pay debt</button>
+        </form>
+      </div>
+
+      <div class="book-cards-container">
+        <% if (!reservations.length) { %>
+        <div><h2><%= user.username %> has no reservations!</h2></div>
+        <% } %> <% reservations.forEach(reservation => { %>
+        <div>
+          <form action="/resolve-reservation" method="POST" class="book-card">
+            <h2><%= reservation.title %></h2>
+            <p><%= reservation.description %></p>
+            <p><%= reservation.published_date.toDateString() %></p>
+            <img
+              src="<%= reservation.cover_image_url %>"
+              height="150px"
+              width="300px"
+              style="border-radius: 8px"
+            />
+            <h4>
+              borrowed on: <%= reservation.borrowed_date.toDateString() %>
+            </h4>
+            <h3>
+              return until: <%= new Date(+new Date(reservation.borrowed_date) +
+              2592000000).toDateString() %>
+            </h3>
+            <input
+              type="hidden"
+              name="reservation_id"
+              value="<%= reservation.reservation_id %>"
+            />
+            <input type="hidden" name="user_id" value="<%= user.id %>" />
+            <% if (reservation.borrowed) { %>
+            <button type="submit">Return book</button>
+            <% } else {%>
+            <div style="font-weight: 600; color: crimson">
+              Book was returned
+            </div>
+            <% } %>
+          </form>
+        </div>
+        <% }) %>
+      </div>
+    </main>
+  </body>
+</html>

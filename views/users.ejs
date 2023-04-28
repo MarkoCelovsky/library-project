@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title><%= pageTitle %></title>
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico" />
+    <link rel="stylesheet" href="/css/main.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700"
+    />
+  </head>
+
+  <body>
+    <header>
+      <div>
+        <a href="/"><h1>List of users</h1> </a>
+      </div>
+      <div style="margin-right: 30px">
+        <a href="/" class="card">Home</a>
+        <a href="/authors" class="card">Authors</a>
+        <a href="/create-book" class="card">Create book</a>
+      </div>
+    </header>
+    <main>
+      <div class="user-cards">
+        <% users.forEach(user => { %>
+        <a href="/users/<%= user.id %>" class="user-card">
+          <h2><%= user.username %></h2>
+          <p><%= user.email %></p>
+          <p><%= user.phone_number %></p>
+          <p><%= user.home_address %></p>
+          <h4>User fee: <%= user.fee.toFixed(2) %> &euro;</h4>
+        </a>
+        <% }) %>
+      </div>
+
+      <form action="/create-user" method="POST" class="add-form">
+        <h2 class="form-heading">Create User</h2>
+
+        <div class="form-field">
+          <label for="username" class="form-label">User name:</label>
+          <input
+            type="text"
+            name="username"
+            id="username"
+            class="form-input"
+            value=""
+          />
+        </div>
+
+        <div class="form-field">
+          <label for="email" class="form-label">Email address:</label>
+          <input
+            type="email"
+            name="email"
+            id="email"
+            class="form-input"
+            value=""
+          />
+        </div>
+
+        <div class="form-field">
+          <label for="phone_number" class="form-label">Phone number:</label>
+          <input
+            type="text"
+            name="phone_number"
+            id="phone_number"
+            class="form-input"
+            value=""
+          />
+        </div>
+
+        <div class="form-field">
+          <label for="home_address" class="form-label">Home address:</label>
+          <input
+            type="text"
+            name="home_address"
+            id="home_address"
+            class="form-input"
+            value=""
+          />
+        </div>
+
+        <button class="button form-button" type="submit">Submit</button>
+      </form>
+    </main>
+  </body>
+</html>

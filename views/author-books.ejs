@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title><%= pageTitle %></title>
+    <link rel="stylesheet" href="/css/main.css" />
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700"
+    />
+  </head>
+
+  <body>
+    <header>
+      <div>
+        <a href="/"
+          ><h1>
+            <%= !books[0]?.username ? "Author books": `${books[0].username}
+            books`%>
+          </h1>
+        </a>
+      </div>
+      <div style="margin-right: 30px">
+        <a href="/" class="card">Home</a>
+        <a href="/authors" class="card">Authors</a>
+        <a href="/create-book" class="card">Create book</a>
+        <a href="/users" class="card">Users</a>
+      </div>
+    </header>
+    <main>
+      <div class="book-cards-container">
+        <% if (!books.length) { %>
+        <div><h2>Author has no books!</h2></div>
+        <% } %> <% books.forEach(book => { %>
+        <form action="/delete-book" method="POST" class="book-card">
+          <h2><%= book.title %></h2>
+          <p><%= book.description %></p>
+          <h3>Author: <%= book.username %></h3>
+          <h4>Genre: <%= book.name %></h4>
+          <p><%= book.published_date.toDateString() %></p>
+          <img
+            src="<%= book.cover_image_url %>"
+            height="150px"
+            width="300px"
+            style="border-radius: 8px"
+          />
+          <input type="hidden" name="book_id" value="<%= book.id_book %>" />
+          <div class="buttons" style="flex-direction: row">
+            <div>
+              <a href="/edit-book/<%= book.id_book %>">Edit book</a>
+            </div>
+            <button type="submit">Delete book</button>
+          </div>
+        </form>
+        <% }) %>
+      </div>
+    </main>
+  </body>
+</html>
